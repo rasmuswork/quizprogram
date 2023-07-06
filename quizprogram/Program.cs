@@ -9,22 +9,22 @@ class Program
     {
         try
         {
-            string filePath;
-
-           string userinput = Console.ReadLine();
+            string filePath = "questions.json";
+            Console.WriteLine("Quiz 1 or 2? Type '1' or '2' and press enter to choose");
+            string userinput = Console.ReadLine();
            if (userinput == "1")
             {
                 filePath = "questions.json";
             }
 
-           if (userinput == "2")
+           else if (userinput == "2")
             {
                 filePath = "questions2.json";
             }
            else
             {
                 Console.WriteLine("Wrong input please choose by typing in a correct number and pressing 'enter'.");
-                goto retry
+                
             }
             
             string jsonString = File.ReadAllText(filePath);
@@ -40,7 +40,7 @@ class Program
                     PresentQuestion(question);
                 }
             }
-
+            //Dispose of the used resources.
             jsonDocument.Dispose();
         }
         catch (Exception ex)
@@ -48,11 +48,12 @@ class Program
             Console.WriteLine(ex.ToString());
         }
     }
-
+    //looks for the JsonElemement 'question'
     static void PresentQuestion(JsonElement question)
     {
+        //It now looks for the property 'spørgsmål' and gets the string
         string spørgsmål = question.GetProperty("spørgsmål").GetString();
-        Console.WriteLine(spørgsmål + "\n");
+        Console.WriteLine(spørgsmål + "\n"); //prints out the s
 
         foreach (JsonElement svar in question.GetProperty("svarmuligheder").EnumerateArray())
         {
